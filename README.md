@@ -23,7 +23,9 @@ then add the folder in Library path
 **How to use it :**
 
 1- Add `TasDropDownForm` in your form/application .
+
 2- Assign DropDownForm (TForm) & TWinControl (Tbutton, Tedit ... ) .  
+
 3- Write this to show the dropdown form in your favor TwinControl
 
 `   asDropDownForm1.DoDropdown;   `
