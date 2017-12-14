@@ -7,7 +7,7 @@ uses
   System.Types;
 
 type
-  TDropDirection = (ddLeftToRight, ddRightToLeft);
+  TDropDirection = (ddLeftToRight, ddCenter, ddRightToLeft );
 
   TasDropDownForm = class(TComponent)
   private
@@ -86,6 +86,11 @@ begin
 
           FMyForm.Left := pt.X - FMyForm.Width + FMyControl.Width -
             FSpaceSide;
+
+      ddCenter :
+                    FMyForm.Left := pt.X - (FMyForm.Width - FMyControl.Width) div 2 ;
+
+
     end;
 
     FMyForm.Show;
@@ -124,6 +129,10 @@ begin
 
           AForm.Left := pt.X - AForm.Width + AControl.Width -
             FSpaceSide;
+
+      ddCenter :
+                    AForm.Left := pt.X - (AForm.Width - AControl.Width) div 2 ;
+
     end;
 
     AForm.Show;
@@ -134,6 +143,7 @@ end;
 
 procedure TasDropDownForm.FormDeactivate(Sender: Tobject);
 begin
+
   (Sender as TForm).Close;
 end;
 
