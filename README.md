@@ -9,6 +9,12 @@ asDropDownForm is a very small component to show any TForm as dropdown in any TW
 
 ![](https://2.bp.blogspot.com/-QDcdJMBdpaY/WjHoyphRPWI/AAAAAAAAAXw/xntLSSNyJVgYCULH6USj60A0Kp4w2LzfgCLcBGAs/s1600/dd.gif)
 
+**Changes :**
+20/12/2017 : 
+- Added Form Animation 
+- Added Delphi 7 compatibility 
+
+
 
 **How to install :**
 
@@ -28,7 +34,10 @@ then add the folder in Library path
 
 3- Write this to show the dropdown form in your favor TwinControl
 
-`   asDropDownForm1.DoDropdown;   `
+`   asDropDownForm1.DoDropdown;   
+`
+
+   ( in Delphi 7 :  You have to use DoDropdownEx ) 
 
 4- Good luck ! 
 
