@@ -10,10 +10,11 @@ asDropDownForm is a very small component to show any TForm as dropdown in any TW
 ![](https://2.bp.blogspot.com/-QDcdJMBdpaY/WjHoyphRPWI/AAAAAAAAAXw/xntLSSNyJVgYCULH6USj60A0Kp4w2LzfgCLcBGAs/s1600/dd.gif)
 
 **Changes :**
+
 20/12/2017 : 
 - Added Form Animation 
 - Added Delphi 7 compatibility 
-
+- Added Form shadow
 
 
 **How to install :**
