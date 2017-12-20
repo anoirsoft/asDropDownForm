@@ -43,6 +43,7 @@ type
     FSpaceSide: SmallInt;
     FDropDownDirection: TDropDirection;
     FAnimation: TAsAnimation;
+    FShadow: boolean;
     procedure SetProps(const Value: TAsAnimation);
     { Private declarations }
   protected
@@ -63,7 +64,7 @@ type
     property DropDownDirection: TDropDirection Read FDropDownDirection
       write FDropDownDirection default ddLeftToRight;
     property FormAnimation: TAsAnimation read FAnimation write SetProps;
-
+    property Shadow: boolean read FShadow Write FShadow default true;
     { Published declarations }
   end;
 
@@ -85,6 +86,7 @@ begin
 
   // TasDropDownForm
   AutoCloseForm := true;
+  Shadow := true;
 
   // FAnimation
   FAnimation := TAsAnimation.Create;
@@ -134,6 +136,15 @@ begin
         FMyForm.Left := pt.X - (FMyForm.Width - FMyControl.Width) div 2;
 
     end;
+
+    FMyForm.FormStyle := fsStayOnTop;
+
+    if not(FShadow) then
+      SetClassLong(FMyForm.Handle, GCL_STYLE, GetClassLong(FMyForm.Handle,
+        GCL_STYLE) and not CS_DROPSHADOW)
+    else
+      SetClassLong(FMyForm.Handle, GCL_STYLE, GetClassLong(FMyForm.Handle,
+        GCL_STYLE) or CS_DROPSHADOW);
 
     with FAnimation do
     begin
@@ -190,6 +201,14 @@ begin
 
     end;
 
+    AForm.FormStyle := fsStayOnTop;
+    if not(FShadow) then
+      SetClassLong(AForm.Handle, GCL_STYLE, GetClassLong(AForm.Handle,
+        GCL_STYLE) and not CS_DROPSHADOW)
+    else
+      SetClassLong(AForm.Handle, GCL_STYLE, GetClassLong(AForm.Handle,
+        GCL_STYLE) or CS_DROPSHADOW);
+
     with FAnimation do
     begin
       if Active then
@@ -203,7 +222,6 @@ begin
         end;
       end;
     end;
-
     AForm.Show;
 
   end;
