@@ -12,12 +12,13 @@ uses
 
 type
   TAnimationStyle = (asSlide, asBlend);
-
+  TSlideDirection = (sdTopBottom, sdLeftRight, sdRightLeft);
   TAsAnimation = class(TPersistent)
   private
     FAniActive: boolean;
     FAnimationStyle: TAnimationStyle;
     FAnimationDelay: Integer;
+    FSlideDirection: TSlideDirection;
   protected
 
   public
@@ -29,7 +30,7 @@ type
       write FAnimationStyle default asSlide;
     property AnimationDelay: Integer read FAnimationDelay write FAnimationDelay
       default 150;
-
+    property SlideDirection : TSlideDirection read FSlideDirection write  FSlideDirection default sdTopBottom;
   end;
 
   TDropDirection = (ddLeftToRight, ddCenter, ddRightToLeft);
@@ -93,7 +94,7 @@ begin
   FAnimation.FAniActive := true;
   FAnimation.FAnimationDelay := 150;
   FAnimation.FAnimationStyle := asSlide;
-
+  FAnimation.SlideDirection := sdTopBottom;
 end;
 
 destructor TasDropDownForm.Destroy;
@@ -150,10 +151,14 @@ begin
     begin
       if Active = true then
       begin
-        case AnimationStyle of
-          asSlide:
-            AnimateWindow(FMyForm.Handle, FAnimationDelay, AW_VER_POSITIVE or
-              AW_SLIDE);
+        case FAnimationStyle of
+          asSlide:  begin
+                case FSlideDirection of
+                  sdTopBottom : AnimateWindow(FMyForm.Handle, FAnimationDelay, AW_VER_POSITIVE or AW_SLIDE);
+                  sdLeftRight : AnimateWindow(FMyForm.Handle, FAnimationDelay, AW_HOR_POSITIVE or AW_SLIDE);
+                  sdRightLeft : AnimateWindow(FMyForm.Handle, FAnimationDelay, AW_HOR_NEGATIVE or AW_SLIDE);
+                end;
+           end;
           asBlend:
             AnimateWindow(FMyForm.Handle, FAnimationDelay,
               AW_BLEND or AW_SLIDE);
@@ -162,7 +167,6 @@ begin
     end;
 
     FMyForm.Show;
-
   end;
 end;
 
@@ -213,16 +217,22 @@ begin
     begin
       if Active then
       begin
-        case AnimationStyle of
-          asSlide:
-            AnimateWindow(AForm.Handle, FAnimationDelay, AW_VER_POSITIVE or
-              AW_SLIDE);
+        case FAnimationStyle of
+          asSlide:  begin
+                case FSlideDirection of
+                  sdTopBottom : AnimateWindow(AForm.Handle, FAnimationDelay, AW_VER_POSITIVE or AW_SLIDE);
+                  sdLeftRight : AnimateWindow(AForm.Handle, FAnimationDelay, AW_HOR_POSITIVE or AW_SLIDE);
+                  sdRightLeft : AnimateWindow(AForm.Handle, FAnimationDelay, AW_HOR_NEGATIVE or AW_SLIDE);
+                end;
+           end;
           asBlend:
             AnimateWindow(AForm.Handle, FAnimationDelay, AW_BLEND or AW_SLIDE);
         end;
       end;
     end;
     AForm.Show;
+
+
 
   end;
 
@@ -235,10 +245,15 @@ begin
   begin
     if Active then
     begin
-      case AnimationStyle of
-        asSlide:
-          AnimateWindow((Sender as TForm).Handle, FAnimationDelay,
-            AW_VER_NEGATIVE or AW_HIDE);
+      case FAnimationStyle of
+          asSlide:  begin
+                case FSlideDirection of
+                  sdTopBottom : AnimateWindow((Sender as TForm).Handle, FAnimationDelay, AW_VER_NEGATIVE or AW_HIDE);
+                  sdLeftRight : AnimateWindow((Sender as TForm).Handle, FAnimationDelay, AW_HOR_NEGATIVE or AW_HIDE);
+                  sdRightLeft : AnimateWindow((Sender as TForm).Handle, FAnimationDelay, AW_HOR_POSITIVE or AW_HIDE);
+                end;
+
+           end;
         asBlend:
           AnimateWindow((Sender as TForm).Handle, FAnimationDelay,
             AW_BLEND or AW_HIDE);
@@ -262,6 +277,8 @@ begin
   begin
     FAniActive := TAsAnimation(Other).FAniActive;
     FAnimationStyle := TAsAnimation(Other).FAnimationStyle;
+    FAnimationDelay :=   TAsAnimation(Other).FAnimationDelay;
+    FSlideDirection :=   TAsAnimation(Other).FSlideDirection;
   end
   else
     inherited
